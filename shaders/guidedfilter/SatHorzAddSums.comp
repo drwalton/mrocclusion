@@ -1,0 +1,26 @@
+#version 430
+
+layout(local_size_x=128, local_size_y=1) in;
+layout(std430, binding=0) buffer satBuffer {
+	float sat[];
+};
+layout(std430, binding=1) buffer sumsBuffer {
+	float sums[];
+};
+
+uniform uint width;
+uniform uint nBlocksHorz;
+
+shared float offset;
+
+void main()
+{
+	uint gidX = gl_GlobalInvocationID.x + 128;
+	uint row = gl_GlobalInvocationID.y;
+	if(gl_LocalInvocationID.x == 0) {
+		offset = sums[gl_WorkGroupID.x + width*row];
+	}
+	barrier();
+	if(gidX < width) sat[gidX + row*width] += offset;
+}
+

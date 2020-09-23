@@ -1,0 +1,47 @@
+#version 430
+
+layout(local_size_x=1, local_size_y=1) in;
+layout(std430, binding=0) buffer satBuffer {
+	float sat[];
+};
+layout(std430, binding=1) buffer resultBuffer {
+	float result[];
+};
+
+uniform int radius;
+uniform int width;
+uniform int height;
+
+void main()
+{
+	int col = int(gl_GlobalInvocationID.x);
+	int row = int(gl_GlobalInvocationID.y);
+	int right = min(col + radius, width-1);
+	int down = min(row + radius, height-1);
+	int left = (row - radius)-1;
+	int top = (col - radius)-1;
+
+	float a, b, c, d;
+	a = sat[right + down*width];
+
+	if(left >= 0) {
+		c = sat[left + down*width];
+	} else {
+		c = 0.0;
+	}
+
+	if(top >= 0) {
+		b = sat[right + top*width];
+	} else {
+		b = 0.0;
+	}
+
+	if(left >= 0 && top >= 0) {
+		d = sat[left + top*width];
+	} else {
+		d = 0.0;
+	}
+
+	result[col + row*width] = (a + d) - (c + b);
+}
+

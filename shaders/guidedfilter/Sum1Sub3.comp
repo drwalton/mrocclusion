@@ -1,0 +1,37 @@
+#version 430
+
+layout(local_size_x=1, local_size_y=1) in;
+layout(std430, binding=0) buffer ABuffer {
+	vec4 a[];
+};
+layout(std430, binding=1) buffer BBuffer {
+	vec4 b[];
+};
+layout(std430, binding=2) buffer C1Buffer {
+	vec4 c1[];
+};
+layout(std430, binding=3) buffer C2Buffer {
+	vec4 c2[];
+};
+layout(std430, binding=4) buffer D1Buffer {
+	vec4 d1[];
+};
+layout(std430, binding=5) buffer D2Buffer {
+	vec4 d2[];
+};
+layout(std430, binding=6) buffer E1Buffer {
+	vec4 e1[];
+};
+layout(std430, binding=7) buffer E2Buffer {
+	vec4 e2[];
+};
+
+void main()
+{
+	uint i = gl_GlobalInvocationID.x;
+	a[i] = b[i]
+		- (c1[i] * c2[i])
+		- (d1[i] * d2[i])
+		- (e1[i] * e2[i]);
+}
+

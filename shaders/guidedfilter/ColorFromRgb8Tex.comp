@@ -1,0 +1,24 @@
+#version 430
+
+layout(local_size_x=1, local_size_y=1) in;
+layout(rgba8ui, binding=0) uniform uimage2D image;
+layout(std430, binding=1) buffer RBuffer {
+	float red[];
+};
+layout(std430, binding=2) buffer GBuffer {
+	float green[];
+};
+layout(std430, binding=3) buffer BBuffer {
+	float blue[];
+};
+
+void main()
+{
+	ivec2 pixelPos = ivec2(gl_GlobalInvocationID.xy);
+	uint width = gl_NumWorkGroups.x;
+	uvec4 pixel = imageLoad(image, pixelPos);
+	red  [pixelPos.x + pixelPos.y*width] = float(pixel.r) / 255.0;
+	green[pixelPos.x + pixelPos.y*width] = float(pixel.g) / 255.0;
+	blue [pixelPos.x + pixelPos.y*width] = float(pixel.b) / 255.0;
+}
+

@@ -1,0 +1,12 @@
+function(ADD_OCCLUSION_TEST TEST_NAME)
+	add_executable(${TEST_NAME} "${TEST_NAME}.cpp")
+	target_link_libraries(${TEST_NAME} ${MROCCLUSION_EXEC_LIBRARIES})
+	set_target_properties(${TEST_NAME} PROPERTIES FOLDER Tests/Occlusion)
+endfunction()
+
+ADD_OCCLUSION_TEST(testGuidedFilter)
+ADD_OCCLUSION_TEST(testGuidedFilterGpu)
+ADD_OCCLUSION_TEST(testGuidedFilterGpuLive)
+ADD_OCCLUSION_TEST(testSelectiveGuidedFilter)
+ADD_OCCLUSION_TEST(testSelectiveBoxFilter)
+ADD_OCCLUSION_TEST(testRGBDOcclusionMethods)

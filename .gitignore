@@ -1,0 +1,17 @@
+*.swp
+build
+xcode
+model
+bin
+lib
+include/mrocclusion/Directories.hpp
+*.png
+*.aux
+*.fdb_latexmk
+*.pdf
+*.fls
+*.log
+*.synctex.gz
+*.obj
+
+.vs

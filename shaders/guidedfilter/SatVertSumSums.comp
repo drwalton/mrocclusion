@@ -1,0 +1,71 @@
+#version 430
+
+layout(local_size_x=1, local_size_y=64) in;
+layout(std430, binding=0) buffer satBuffer {
+	float sat[];
+};
+layout(std430, binding=1) buffer partialSumBuffer {
+	float sums[];
+};
+
+uniform uint width;
+uniform uint height;
+uniform uint nBlocksVert;
+
+shared float localSums[128];
+
+void main()
+{
+	uint gidY0 = 128 * (gl_GlobalInvocationID.y * 2) + 127;
+	uint gidY1 = 128 * (gl_GlobalInvocationID.y * 2 + 1) + 127;
+	uint lid = gl_LocalInvocationID.y;
+	uint col = gl_GlobalInvocationID.x;
+
+	//Each thread loads two items and stores them in local memory.
+	float in0, in1;
+	if(gidY0 >= height) in0 = 0.0;
+	else in0 = sat[col + gidY0*width];
+	if(gidY1 >= height) in1 = 0.0;
+	else in1 = sat[col + gidY1*width];
+
+	localSums[lid*2] = in0;
+	localSums[lid*2+1] = in1;
+
+	//Up-sweep
+	uint offset = 1;
+	uint d;
+
+	for(d = 128; d > 0; d >>= 1) {
+		barrier();
+		if(lid < d) {
+			uint ai = (2 * lid + 1) * offset - 1;
+			uint bi = (2 * lid + 2) * offset - 1;
+			localSums[bi] += localSums[ai];
+		}
+		offset <<= 1;
+	}
+
+	barrier();
+
+	//Down-sweep
+	for (d = 1; d <= 128; d <<= 1) {
+		offset >>= 1;
+		barrier();
+
+		if (lid < d) {
+			uint ai = (2 * lid + 1) * offset - 1;
+			uint bi = (2 * lid + 2) * offset - 1;
+
+			float tmp = localSums[ai];
+			localSums[ai] = localSums[bi];
+			localSums[bi] += tmp;
+		}
+	}
+
+	barrier();
+	uint r0 = gl_GlobalInvocationID.y*2;
+	uint r1 = gl_GlobalInvocationID.y*2 + 1;
+	if(r0 < nBlocksVert) sums[col + r0*width] = localSums[lid*2] + in0;
+	if(r1 < nBlocksVert) sums[col + r1*width] = localSums[lid*2 + 1] + in1;
+}
+
