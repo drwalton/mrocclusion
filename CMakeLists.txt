@@ -32,7 +32,6 @@ if(NOT WIN32)
 	set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS} -pthread -fPIC")
 endif(NOT WIN32)
 
-find_package(CGAL REQUIRED)
 find_package(GMP REQUIRED)
 find_package(MPFR REQUIRED)
 find_package(CUDA REQUIRED)
@@ -60,7 +59,6 @@ add_definitions(-DTW_STATIC)
 include_directories(3rdParty/AntTweakBar_sdl2/include)
 include_directories(${ASSIMP_INCLUDE_DIRS})
 include_directories(${ARTOOLKITPLUS_INCLUDE_DIRS})
-include_directories(${CGAL_INCLUDE_DIRS})
 include_directories(${gmp_INCLUDE_DIRS})
 include_directories(${EIGEN_INCLUDE_DIRS})
 include_directories(${GLEW_INCLUDE_DIRS})
@@ -73,7 +71,6 @@ include_directories(${OPENNI2_INCLUDE_DIRS})
 include_directories(${ZLIB_INCLUDE_DIR})
 include_directories(${InfiniTAM_INCLUDE_DIRS})
 include_directories(${CUDA_INCLUDE_DIRS})
-include_directories(${GLOG_INCLUDE_DIR})
 include_directories(${CERES_INCLUDE_DIRS})
 
 #Autogenerate directories file.
@@ -104,10 +101,6 @@ set(MROCCLUSION_EXEC_LIBRARIES
 	inpaint
 	poly2tri
 	${ZLIB_LIBRARIES}
-	optimized
-		${CGAL_LIBRARIES}
-	debug
-		${CGAL_LIBRARIES_DEBUG}
 	${OPENCV_LIBRARIES}
 	optimized
 		${InfiniTAM_LIBRARIES}

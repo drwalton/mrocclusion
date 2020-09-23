@@ -1,7 +1,6 @@
 #include "mrocclusion/IterativeRgbdOcclusionMethodMOG.hpp"
 #include "mrocclusion/IterativeRgbdOcclusionMethod-inl.hpp"
 #include <ceres/ceres.h>
-#include <glog/logging.h>
 
 double powInt(double x, int p) {
 	double tmp = x;

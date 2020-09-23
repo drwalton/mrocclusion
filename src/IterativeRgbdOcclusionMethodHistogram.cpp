@@ -4,7 +4,6 @@
 #include "mrocclusion/RgbHistogram.hpp"
 
 #include <ceres/ceres.h>
-#include <glog/logging.h>
 
 double powInt(double x, int p) {
 	double tmp = x;

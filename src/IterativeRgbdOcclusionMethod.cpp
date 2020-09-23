@@ -2,7 +2,6 @@
 #include "mrocclusion/IterativeRgbdOcclusionMethod-inl.hpp"
 
 #include <ceres/ceres.h>
-#include <glog/logging.h>
 
 IterativeRgbdOcclusionMethod::IterativeRgbdOcclusionMethod(
 	size_t colorWidth, size_t colorHeight, 
