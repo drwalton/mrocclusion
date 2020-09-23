@@ -1,0 +1,81 @@
+{
+	"baseFilename": "G:/occlusionFootage/normal/WedAug122357522015",
+	"baseFilename1": "G:/occlusionFootage/shiny/ThuAug130800022015",
+	"baseFilename1": "G:/occlusionFootage/samecolor/SunAug161750152015",
+	"colorConfig": "G:/local/hqar/calib/XtionProLive.json",
+	"depthConfig": "G:/local/hqar/calib/XtionProLive.json",
+	"rgbToDepth": "G:/local/hqar/calib/Identity.mat4",
+
+	"patternWidth": 0.15,
+	"borderWidth": 0.25,
+
+	"occlusionMethods": [
+		{
+			"type": "NaiveInfront"
+		},
+		{
+			"type": "NaiveBehind"
+		},
+		{
+			"type": "CostVolumeGpu",
+			"nHistogramBins": 16,
+			"costFilterR": 22,
+			"costFilterEps": 0.005,
+			"finalFilterR": 1,
+			"finalFilterEps": 0.6
+		},
+		{
+			"type": "BaselineGuided"
+		},
+		{
+			"type": "BaselineBilateral"
+		},
+		{
+			"type": "Crabb"
+		}
+	],
+
+	"other": [
+		{
+			"type": "CostVolumeGuided"
+		},
+		{
+			"type": "BaselineBilateral"
+		},
+		{
+			"type": "Crabb"
+		},
+		{
+			"type": "BaselineGuided"
+		},
+		{
+			"type": "BaselineManifold"
+		},
+		{
+			"type": "Bilateral"
+		},
+		{
+			"type": "CostVolumeGuided",
+			"costFilterR": 9,
+			"costFilterEps": 80.0,
+			"finalFilterR": 3,
+			"finalFilterEps": 0.01,
+			"nIterations": 1,
+			"erodeAmt": 3
+		},
+		{
+			"type": "Bilateral",
+			"colorSigma": 14.0,
+			"depthSigma": 8.0,
+			"filterSize": 32
+		},
+		{
+			"type": "AdaptiveBilateral",
+			"colorSigma": 14.0,
+			"depthSigma": 8.0,
+			"maxFilterSize": 16,
+			"minFgBgPixels": 30
+		}
+	]
+}
+

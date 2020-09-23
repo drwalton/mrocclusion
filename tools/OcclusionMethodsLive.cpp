@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	GLWindow win("Record Occlusion Method Footage", winWidth, winHeight);
+	GLWindow win("Live Occlusion Method Comparison", winWidth, winHeight);
 	bool running = true;
 	bool visualise = false;
 	std::unique_ptr<OpenNiDepthCam> depthCam;
